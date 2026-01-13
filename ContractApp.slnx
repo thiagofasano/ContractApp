@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/1-Application/">
+    <Project Path="ContractApp.Api/ContractApp.Api.csproj" />
+  </Folder>
+  <Folder Name="/2-Domain/">
+    <Project Path="ContractApp.Domain/ContractApp.Domain.csproj" />
+  </Folder>
+  <Folder Name="/3-Infraestructure/">
+    <Project Path="ContractApp.Infraestrutucture.Data/ContractApp.Infra.Data.csproj" />
+  </Folder>
+  <Folder Name="/4-Tests/" />
+</Solution>
