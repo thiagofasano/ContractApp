@@ -13,8 +13,8 @@ namespace ContractApp.Domain.Entities
         public string AbusiveClauses { get; set; } = string.Empty;
         public string Improvements { get; set; } = string.Empty;
         public string LegalRefs { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = new DateTime();
-        public DateTime UpdatedAt { get; set; } = new DateTime();
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         // Navigation Property
         public Contract? Contract { get; set; }

@@ -15,8 +15,8 @@ namespace ContractApp.Domain.Entities
         public string State { get; set; } = string.Empty;
         public string Country { get; set; } = string.Empty;
         public string ZipCode { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = new DateTime();
-        public DateTime UpdatedAt { get; set; } = new DateTime();
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         // Navigation Property
         public User? User { get; set; }

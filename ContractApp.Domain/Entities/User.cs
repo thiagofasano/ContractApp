@@ -13,8 +13,8 @@ namespace ContractApp.Domain.Entities
         public string Name { get; set; } = string.Empty;
         public string DocumentType { get; set; } = string.Empty;
         public string DocumentPerson { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = new DateTime();
-        public DateTime UpdatedAt { get; set; } = new DateTime();
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         // Navigation Property
         public List<Subscription>? Subscriptions { get; set; }

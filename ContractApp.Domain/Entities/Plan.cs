@@ -13,8 +13,8 @@ namespace ContractApp.Domain.Entities
         public int MonthlyAnalysisLimit { get; set; } = 0;
         public decimal Price { get; set; } = 0;
         public int Status { get; set; } = 0;
-        public DateTime CreatedAt { get; set; } = new DateTime();
-        public DateTime UpdatedAt { get; set; } = new DateTime();
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         // Navigation Property
         public List<Subscription>? Subscriptions { get; set; }

@@ -12,8 +12,8 @@ namespace ContractApp.Domain.Entities
         public string Year { get; set; } = string.Empty;
         public string Month { get; set; } = string.Empty;
         public int AnalysisCount { get; set; } = 0;
-        public DateTime CreatedAt { get; set; } = new DateTime();
-        public DateTime UpdatedAt { get; set; } = new DateTime();
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         // Navigation Properties
         public Subscription? Subscription { get; set; }
