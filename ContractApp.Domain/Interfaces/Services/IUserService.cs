@@ -9,8 +9,11 @@ namespace ContractApp.Domain.Interfaces.Services
 {
     public interface IUserService
     {
+        UserResponse GetById(int id);
         void CreateAccount(UserCreateRequest user);
         User GetUserByEmail(string email);
         UserResponse Auth(UserAuthenticateRequest request);
+        void UpdateUser(int id, UserUpdateRequest request);
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ContractApp.Domain.Dtos;
 using ContractApp.Domain.Dtos.User;
+using ContractApp.Domain.Dtos.User.Request;
 using ContractApp.Domain.Dtos.User.Response;
 using ContractApp.Domain.Entities;
 using System;

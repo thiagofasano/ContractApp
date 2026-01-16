@@ -1,4 +1,4 @@
-﻿using ContractApp.Domain.Dtos.User.Response;
+﻿using ContractApp.Domain.Dtos.UserAddress.Response;
 using System;
 using System.Collections.Generic;
 using System.Text;

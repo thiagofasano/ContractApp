@@ -1,5 +1,6 @@
 ﻿using ContractApp.Domain.Dtos.User.Request;
 using ContractApp.Domain.Dtos.User.Response;
+using ContractApp.Domain.Dtos.UserAddress.Response;
 using ContractApp.Domain.Entities;
 using ContractApp.Domain.Interfaces.Repositories;
 using ContractApp.Domain.Interfaces.Services;
@@ -12,6 +13,39 @@ namespace ContractApp.Domain.Services
 {
     public class UserService(IUserRepository userRepository, IUserAddressRepository userAddressRepository) : IUserService
     {
+        public UserResponse GetById(int id)
+        {
+            var user = userRepository.GetById(id);
+
+            if (user == null)
+            {
+                throw new Exception("Usuário não encontrado");
+            }
+
+            var address = userAddressRepository.GetAddressByUserId(user.Id);
+
+            return new UserResponse
+            {
+                Id = user.Id,
+                Guid = user.Guid,
+                Name = user.Name,
+                Email = user.Email,
+                DocumentType = user.DocumentType,
+                DocumentPerson = user.DocumentPerson,
+                Address = new UserAddressResponse
+                {
+                    Street = address.Street,
+                    Number = address.Number,
+                    City = address.City,
+                    State = address.State,
+                    Country = address.Country,
+                    ZipCode = address.ZipCode 
+
+                }
+            };
+
+        }
+
         public void CreateAccount(UserCreateRequest request)
         {
 
@@ -104,6 +138,38 @@ namespace ContractApp.Domain.Services
                 } : null
             };
         }
+
+        public void UpdateUser(int id, UserUpdateRequest request)
+        {
+            var user = userRepository.GetById(id);
+            
+            if (user == null)
+            {
+                throw new Exception("Usuário não encontrado");
+            }
+
+            user.Name = request.Name;
+            user.DocumentType = request.DocumentType;
+            user.DocumentPerson = request.DocumentPerson;
+            user.UpdatedAt = DateTime.UtcNow;
+            
+            userRepository.Update(user);
+
+            var address = userAddressRepository.GetAddressByUserId(user.Id);
+
+            if (address != null)
+            {
+                address.Street = request.Address?.Street ?? address.Street;
+                address.Number = request.Address?.Number ?? address.Number;
+                address.City = request.Address?.City ?? address.City;
+                address.State = request.Address?.State ?? address.State;
+                address.Country = request.Address?.Country ?? address.Country;
+                address.ZipCode = request.Address?.ZipCode ?? address.ZipCode;
+
+                userAddressRepository.Update(address);
+            }
+        }
+
 
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection.Metadata;
 using System.Text;
 
-namespace ContractApp.Domain.Dtos.User.Response
+namespace ContractApp.Domain.Dtos.UserAddress.Response
 {
     public class UserAddressResponse
     {

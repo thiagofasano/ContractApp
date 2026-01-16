@@ -44,7 +44,7 @@ namespace ContractApp.Infra.Data.Repositories
             }
         }
 
-        public TEntity? GetById(Guid id)
+        public TEntity? GetById(int id)
         {
             using (var dataContext = new DataContext())
             {

@@ -9,7 +9,7 @@ namespace ContractApp.Domain.Interfaces.Repositories
         void Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
-        TEntity? GetById(Guid id);
+        TEntity? GetById(int id);
         List<TEntity> GetAll();
     }
 }
