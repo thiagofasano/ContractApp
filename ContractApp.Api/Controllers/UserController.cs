@@ -78,11 +78,11 @@ namespace ContractApp.Api.Controllers
         [HttpPut]
         [Route("{id}/update-password")]
         [SwaggerOperation(Summary = "Atualiza a senha do usuário a partir de um id usuário")]
-        public IActionResult UpdatePassword(int userId, [FromBody] UserUpdatePasswordRequestDTO request)
+        public IActionResult UpdatePassword(int id, [FromBody] UserUpdatePasswordRequestDTO request)
         {
             try
             {
-                userService.UpdatePassword(userId, request.PasswordOld, request.PasswordNew);
+                userService.UpdatePassword(id, request.PasswordOld, request.PasswordNew);
                 return StatusCode(200);
             }
             catch (Exception ex)
