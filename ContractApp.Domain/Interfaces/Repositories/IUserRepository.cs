@@ -1,5 +1,6 @@
 ﻿using ContractApp.Domain.Dtos;
 using ContractApp.Domain.Dtos.User;
+using ContractApp.Domain.Dtos.User.Response;
 using ContractApp.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,6 @@ namespace ContractApp.Domain.Interfaces.Repositories
 {
     public interface IUserRepository : IBaseRepository<User>
     {
-        UserResponse BuscarPorEmail(string email);
+        User GetUserByEmail(string email);
     }
 }

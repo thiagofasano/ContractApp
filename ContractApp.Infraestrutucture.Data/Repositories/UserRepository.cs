@@ -1,5 +1,5 @@
 ﻿using ContractApp.Domain.Dtos;
-using ContractApp.Domain.Dtos.User;
+using ContractApp.Domain.Dtos.User.Response;
 using ContractApp.Domain.Entities;
 using ContractApp.Domain.Interfaces.Repositories;
 using ContractApp.Infra.Data.Contexts;
@@ -12,7 +12,7 @@ namespace ContractApp.Infra.Data.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public UserResponse BuscarPorEmail(string email)
+        public User GetUserByEmail(string email)
         {
             using (var dataContext = new DataContext()) {                 
                 var user = dataContext.Set<User>()
@@ -24,15 +24,7 @@ namespace ContractApp.Infra.Data.Repositories
                     return null;
                 }
 
-                return new UserResponse
-                {
-                    Id = user.Id,
-                    Guid = user.Guid,
-                    Name = user.Name,
-                    Email = user.Email,
-                    DocumentType = user.DocumentType,
-                    DocumentPerson = user.DocumentPerson,
-                };
+                return user;
             }
         }
     }

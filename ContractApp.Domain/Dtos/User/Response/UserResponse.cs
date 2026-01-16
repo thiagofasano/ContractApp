@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ContractApp.Domain.Dtos.User.Request;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ContractApp.Domain.Dtos.User
+namespace ContractApp.Domain.Dtos.User.Response
 {
-    public record UserResponse
+    public class UserResponse
     {
         public int Id { get; init; }
         public Guid Guid { get; init; }
@@ -12,6 +13,6 @@ namespace ContractApp.Domain.Dtos.User
         public string Email { get; init; } = string.Empty;
         public string DocumentType { get; init; } = string.Empty; 
         public string DocumentPerson { get; init; } = string.Empty; 
-        public UserAddressRequest? Address { get; init; }
+        public UserAddressResponse? Address { get; init; }
     }
 }

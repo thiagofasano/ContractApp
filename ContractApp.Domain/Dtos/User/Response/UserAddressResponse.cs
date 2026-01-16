@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Reflection.Metadata;
 using System.Text;
 
-namespace ContractApp.Domain.Dtos.User
+namespace ContractApp.Domain.Dtos.User.Response
 {
-    public record UserAddressRequest
+    public class UserAddressResponse
     {
-        public int UsuarioId { get; init; } 
         public string Street { get; init; } = string.Empty;
         public string Number { get; init; } = string.Empty;
         public string City { get; init; } = string.Empty;

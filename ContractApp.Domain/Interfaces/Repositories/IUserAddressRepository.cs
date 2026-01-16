@@ -7,5 +7,6 @@ namespace ContractApp.Domain.Interfaces.Repositories
 {
     public interface IUserAddressRepository : IBaseRepository<UserAddress>
     {
+        UserAddress GetAddressByUserId(int id);
     }
 }
