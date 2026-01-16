@@ -2,6 +2,7 @@
 using ContractApp.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ContractApp.Api.Controllers
 {
@@ -12,7 +13,8 @@ namespace ContractApp.Api.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult ObterPorId(int id)
+        [SwaggerOperation(Summary = "Retorna os dados de um usuário a partir de um id usuário")]
+        public IActionResult GetBydId(int id)
         {
             try
             {
@@ -26,7 +28,8 @@ namespace ContractApp.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CriarConta([FromBody] UserCreateRequest request)
+        [SwaggerOperation(Summary = "Cria uma conta")]
+        public IActionResult CriarConta([FromBody] UserCreateRequestDTO request)
         {
             try
             {
@@ -42,7 +45,8 @@ namespace ContractApp.Api.Controllers
 
         [HttpPost]
         [Route("auth")]
-        public IActionResult Autenticar([FromBody] UserAuthenticateRequest request)
+        [SwaggerOperation(Summary = "Autentica através de e-mail e password")]
+        public IActionResult Autenticar([FromBody] UserAuthenticateRequestDTO request)
         {
             try
             {
@@ -57,11 +61,28 @@ namespace ContractApp.Api.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult AtualizarUsuario(int id, [FromBody] UserUpdateRequest request)
+        [SwaggerOperation(Summary = "Atualiza dados do usuário a partir de um id usuário")]
+        public IActionResult Update(int id, [FromBody] UserUpdateRequestDTO request)
         {
             try
             {
-                userService.UpdateUser(id, request);
+                userService.Update(id, request);
+                return StatusCode(200);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("{id}/update-password")]
+        [SwaggerOperation(Summary = "Atualiza a senha do usuário a partir de um id usuário")]
+        public IActionResult UpdatePassword(int userId, [FromBody] UserUpdatePasswordRequestDTO request)
+        {
+            try
+            {
+                userService.UpdatePassword(userId, request.PasswordOld, request.PasswordNew);
                 return StatusCode(200);
             }
             catch (Exception ex)

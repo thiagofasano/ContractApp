@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ContractApp.Domain.Dtos.User.Response
 {
-    public class UserResponse
+    public class UserResponseDTO
     {
         public int Id { get; init; }
         public Guid Guid { get; init; }
@@ -14,6 +14,6 @@ namespace ContractApp.Domain.Dtos.User.Response
         public string Email { get; init; } = string.Empty;
         public string DocumentType { get; init; } = string.Empty; 
         public string DocumentPerson { get; init; } = string.Empty; 
-        public UserAddressResponse? Address { get; init; }
+        public UserAddressResponseDTO? Address { get; init; }
     }
 }

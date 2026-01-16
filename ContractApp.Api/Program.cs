@@ -12,8 +12,10 @@ builder.Services.AddOpenApi();
 
 //Swagger configuration
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+builder.Services.AddSwaggerGen(c =>
+{
+    c.EnableAnnotations();
+});
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserAddressRepository, UserAddressRepository>();
 builder.Services.AddTransient<IUserService, UserService>();

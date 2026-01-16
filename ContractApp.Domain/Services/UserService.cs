@@ -13,7 +13,7 @@ namespace ContractApp.Domain.Services
 {
     public class UserService(IUserRepository userRepository, IUserAddressRepository userAddressRepository) : IUserService
     {
-        public UserResponse GetById(int id)
+        public UserResponseDTO GetById(int id)
         {
             var user = userRepository.GetById(id);
 
@@ -24,7 +24,7 @@ namespace ContractApp.Domain.Services
 
             var address = userAddressRepository.GetAddressByUserId(user.Id);
 
-            return new UserResponse
+            return new UserResponseDTO
             {
                 Id = user.Id,
                 Guid = user.Guid,
@@ -32,25 +32,25 @@ namespace ContractApp.Domain.Services
                 Email = user.Email,
                 DocumentType = user.DocumentType,
                 DocumentPerson = user.DocumentPerson,
-                Address = new UserAddressResponse
+                Address = new UserAddressResponseDTO
                 {
+                    Id = address.Id,
                     Street = address.Street,
                     Number = address.Number,
                     City = address.City,
                     State = address.State,
                     Country = address.Country,
                     ZipCode = address.ZipCode 
-
                 }
             };
 
         }
 
-        public void CreateAccount(UserCreateRequest request)
+        public void CreateAccount(UserCreateRequestDTO request)
         {
 
             // Verificar se o e-mail já está em uso
-            var existingUser = GetUserByEmail(request.Email);
+            var existingUser = GetByEmail(request.Email);
 
             if (existingUser != null)
             {
@@ -90,7 +90,33 @@ namespace ContractApp.Domain.Services
             userAddressRepository.Add(address);
         }
 
-        public User GetUserByEmail(string email)
+        public void UpdatePassword(int userId, string passwordOld, string passwordNew)
+        {
+            var user = userRepository.GetById(userId);
+
+            if (user != null) {
+
+                var passWordOldHash = CryptoHelper.ToSha256(passwordOld);
+
+                if (user.PasswordHash != passWordOldHash)
+                {
+                    throw new Exception("Senha antiga inválida");
+                }
+
+                var passWordNewHash = CryptoHelper.ToSha256(passwordNew);
+
+                user.PasswordHash = passWordNewHash;
+                user.UpdatedAt = DateTime.UtcNow;
+
+                userRepository.Update(user);
+            }
+            else
+            {
+                throw new Exception("Usuário não encontrado");
+            }
+        }
+
+        public User GetByEmail(string email)
         {
             if (email == null)
             {
@@ -102,7 +128,7 @@ namespace ContractApp.Domain.Services
             return user;
         }
 
-        public UserResponse Auth(UserAuthenticateRequest request)
+        public UserResponseDTO Auth(UserAuthenticateRequestDTO request)
         {
             var user = userRepository.GetUserByEmail(request.Email);
 
@@ -119,7 +145,7 @@ namespace ContractApp.Domain.Services
 
             var address = userAddressRepository.GetAddressByUserId(user.Id);
 
-            return new UserResponse 
+            return new UserResponseDTO 
             {
                 Id = user.Id,
                 Guid = user.Guid,
@@ -127,7 +153,7 @@ namespace ContractApp.Domain.Services
                 Email = user.Email,
                 DocumentType = user.DocumentType,
                 DocumentPerson = user.DocumentPerson,
-                Address = address != null ? new UserAddressResponse
+                Address = address != null ? new UserAddressResponseDTO
                 {
                     Street = address.Street,
                     Number = address.Number,
@@ -139,7 +165,7 @@ namespace ContractApp.Domain.Services
             };
         }
 
-        public void UpdateUser(int id, UserUpdateRequest request)
+        public void Update(int id, UserUpdateRequestDTO request)
         {
             var user = userRepository.GetById(id);
             
@@ -154,20 +180,6 @@ namespace ContractApp.Domain.Services
             user.UpdatedAt = DateTime.UtcNow;
             
             userRepository.Update(user);
-
-            var address = userAddressRepository.GetAddressByUserId(user.Id);
-
-            if (address != null)
-            {
-                address.Street = request.Address?.Street ?? address.Street;
-                address.Number = request.Address?.Number ?? address.Number;
-                address.City = request.Address?.City ?? address.City;
-                address.State = request.Address?.State ?? address.State;
-                address.Country = request.Address?.Country ?? address.Country;
-                address.ZipCode = request.Address?.ZipCode ?? address.ZipCode;
-
-                userAddressRepository.Update(address);
-            }
         }
 
 
