@@ -12,7 +12,7 @@ using UsuariosApp.Domain.Helpers;
 
 namespace ContractApp.Domain.Services
 {
-    public class UserService(IUserRepository userRepository, IUserAddressRepository userAddressRepository, ISubscriptionService subscriptionService) : IUserService
+    public class UserService(IUserRepository userRepository, IUserAddressRepository userAddressRepository, ISubscriptionService subscriptionService, ISubscriptionAnalysisUsageService subscriptionAnalysisUsageService) : IUserService
     {
         public UserResponseDTO GetById(int id)
         {
@@ -89,6 +89,11 @@ namespace ContractApp.Domain.Services
 
             // Criar Subscription Free como default
             subscriptionService.AddFree(1, createdUser.Id);
+
+            var subscription = subscriptionService.GetByUserId(createdUser.Id);
+
+            // Criar AnalysisUsage inicialmente com contador 0
+            subscriptionAnalysisUsageService.Add(subscription.Id);
         }
 
         public void UpdatePassword(int userId, string passwordOld, string passwordNew)

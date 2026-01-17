@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ContractApp.Domain.Services
 {
-    public class SubscriptionService (ISubscriptionRepository subscriptionRepository, IPlanService planService) : ISubscriptionService
+    public class SubscriptionService (ISubscriptionRepository subscriptionRepository, IPlanService planService, ISubscriptionAnalysisUsageService subscriptionAnalysisUsageService) : ISubscriptionService
     {
         public void AddFree(int planId, int userId)
         {
@@ -72,7 +72,18 @@ namespace ContractApp.Domain.Services
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
-        }
+
+            subscriptionRepository.Add(newSubscription);
+
+            // Criar novo Analisys Usage
+            if (newSubscription == null)
+            {
+                throw new Exception(
+                    "Nova assinatura não encontrada após upgrade/downgrade");
+            }
+
+            subscriptionAnalysisUsageService.Add(newSubscription.Id);
+            }
 
         public void Renew(int subscriptionId)
         {
@@ -91,6 +102,9 @@ namespace ContractApp.Domain.Services
             subscription.EndDate = subscription.EndDate.Value.AddMonths(1);
             subscription.UpdatedAt = DateTime.UtcNow;
             subscriptionRepository.Update(subscription);
+
+            // Adicionando SubscriptionAnalysisUsage para o período renovado
+            subscriptionAnalysisUsageService.Add(subscription.Id);
         }
 
         public Subscription GetById(int id)

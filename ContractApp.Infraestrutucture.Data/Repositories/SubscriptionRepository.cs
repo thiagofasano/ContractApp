@@ -15,7 +15,7 @@ namespace ContractApp.Infra.Data.Repositories
             using (var dataContext = new DataContext())
             {
                 var subscription = dataContext.Set<Subscription>()
-                    .FirstOrDefault(s => s.UserId == userId);
+                    .FirstOrDefault(s => s.UserId == userId && s.Status == "active");
 
                 if (subscription == null)
                 {
