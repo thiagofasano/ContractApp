@@ -19,10 +19,12 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserAddressRepository, UserAddressRepository>();
 builder.Services.AddTransient<IPlanRepository, PlanRepository>();
+builder.Services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IUserAddressService, UserAddressService>();
 builder.Services.AddTransient<IPlanService, PlanService>();
+builder.Services.AddTransient<ISubscriptionService, SubscriptionService>();
 
 
 builder.Services.AddControllers();

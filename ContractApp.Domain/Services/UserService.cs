@@ -1,4 +1,5 @@
-﻿using ContractApp.Domain.Dtos.User.Request;
+﻿using ContractApp.Domain.Dtos.Subscription.Request;
+using ContractApp.Domain.Dtos.User.Request;
 using ContractApp.Domain.Dtos.User.Response;
 using ContractApp.Domain.Dtos.UserAddress.Response;
 using ContractApp.Domain.Entities;
@@ -11,7 +12,7 @@ using UsuariosApp.Domain.Helpers;
 
 namespace ContractApp.Domain.Services
 {
-    public class UserService(IUserRepository userRepository, IUserAddressRepository userAddressRepository) : IUserService
+    public class UserService(IUserRepository userRepository, IUserAddressRepository userAddressRepository, ISubscriptionService subscriptionService) : IUserService
     {
         public UserResponseDTO GetById(int id)
         {
@@ -72,10 +73,8 @@ namespace ContractApp.Domain.Services
 
             userRepository.Add(user);
 
-            // Buscar o usuário recém-criado para obter o ID
-            var createdUser = userRepository.GetUserByEmail(request.Email);
-
             // Criar e gravar o endereço
+            var createdUser = userRepository.GetUserByEmail(request.Email);
             var address = new UserAddress
             {
                 UserId = createdUser.Id,
@@ -86,8 +85,10 @@ namespace ContractApp.Domain.Services
                 Country = request.Address?.Country ?? string.Empty,
                 ZipCode = request.Address?.ZipCode ?? string.Empty
             };
-
             userAddressRepository.Add(address);
+
+            // Criar Subscription Free como default
+            subscriptionService.AddFree(1, createdUser.Id);
         }
 
         public void UpdatePassword(int userId, string passwordOld, string passwordNew)

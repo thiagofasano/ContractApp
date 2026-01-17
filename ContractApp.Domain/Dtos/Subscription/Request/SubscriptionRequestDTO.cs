@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ContractApp.Domain.Entities
+namespace ContractApp.Domain.Dtos.Subscription.Request
 {
-    public class Subscription
+    public class SubscriptionRequestDTO
     {
-        public int Id { get; set; } = 0;
-        public Guid Guid { get; set; } = Guid.NewGuid();
         public int UserId { get; set; } = 0;
         public int PlanId { get; set; } = 0;
         public DateTime StartDate { get; set; } = DateTime.Now;
@@ -15,11 +13,5 @@ namespace ContractApp.Domain.Entities
         public string Status { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
-
-        // Navigation Property
-        public User? User { get; set; }
-        public Plan? Plan { get; set; }
-        public List<Payment>? Payments { get; set; }
-        public List<SubscriptionAnalysisUsage>? UserAnalysisUsages { get; set; }
     }
 }
